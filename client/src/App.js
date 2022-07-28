@@ -1,14 +1,18 @@
-import {BrowserRouter, Route} from "react-router-dom"
-import Homepage from './Components/Homepage/Homepage';
-import Loginpage from './Components/Loginpage/Loginpage';
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import Homepage from "./Components/Homepage/Homepage"
+import Loginpage from "./Components/Loginpage/Loginpage"
+import NavBar from "./Components/NavBar/NavBar"
 
 function App() {
   return (
     <BrowserRouter>
-    <Route path="/" exact component={Homepage} />
-    <Route path="/login" exact component={Loginpage} />
+      <NavBar />
+      <Switch>
+        <Route path="/" exact component={Homepage} />
+        <Route path="/login" component={Loginpage} />
+      </Switch>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
