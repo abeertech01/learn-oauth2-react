@@ -1,6 +1,9 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
+import cors from "cors"
+import session from "express-session"
+import passport from "passport"
 
 dotenv.config()
 
@@ -24,7 +27,6 @@ app.use(
     saveUninitialized: true,
   })
 )
-app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
 
