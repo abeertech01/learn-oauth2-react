@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import session from "express-session"
 import passport from "passport"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 
 dotenv.config()
 
@@ -29,6 +30,34 @@ app.use(
 )
 app.use(passport.initialize())
 app.use(passport.session())
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "776866148143-od6vtln8q20k3gqhboevshjlsubfcurb.apps.googleusercontent.com",
+      clientSecret: "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",
+      callbackURL: "/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      // Called Successful Authentication!
+      // Insert into Database
+      console.log(profile)
+      cb(null, profile)
+    }
+  )
+)
+
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile"] }))
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/")
+  }
+)
 
 app.get("/", (req, res) => {
   res.send("Hello World")
